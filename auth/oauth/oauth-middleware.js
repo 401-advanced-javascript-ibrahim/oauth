@@ -4,18 +4,18 @@
 const superagent = require('superagent');
 const Users = require('../users.js');
 
-let tokenURL;
-let remoteAPI;
+let tokenURL = 'https://github.com/login/oauth/access_token';
+let remoteAPI = 'https://api.github.com/user';
 const CLIENT_ID = process.env.CLIENT_ID;
 const CLIENT_SECRET = process.env.CLIENT_SECRET;
 const API_SERVER = process.env.API_SERVER;
 
-module.exports = async function authorize(req,res,next){
+module.exports = async function authorize(req, res, next) {
     try {
         let code = req.query.code;
         let remoteToken = await codeTokenExchanger(code);
         let remoteUser = await getRemoteUserInfo(remoteToken);
-        let [user,token] = await getUser(remoteUser);
+        let [user, token] = await getUser(remoteUser);
         req.user = user;
         req.token = token;
         next()
@@ -39,8 +39,8 @@ async function codeTokenExchanger(code) {
 
 async function getRemoteUserInfo(token) {
     let userResponse = await superagent.get(remoteAPI)
-    .set('user-agent', 'express-app')
-    .set('Authorization', `token ${token}`);
+        .set('user-agent', 'express-app')
+        .set('Authorization', `token ${token}`);
 
     let user = userResponse.body;
     return user;
