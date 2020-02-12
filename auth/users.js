@@ -30,16 +30,13 @@ users.statics.authenticater = function (auth) { /// I got confused to use eathie
 };
 
 users.methods.passwordComparator = function (pass) {
-    console.log('password1', pass);
-    console.log('password2', this.password);
     return bcrypt.compare(pass, this.password)
         .then(valid => {
             return valid ? this : null
         });
 };
 
-users.statics.tokenGenerator = function (user) {
-    console.log('there');
+users.methods.tokenGenerator = function (user) {
     let token = {
         id: user._id,
     };
@@ -52,5 +49,3 @@ users.statics.list = async function () {
 }
 
 module.exports = mongoose.model('users', users);
-
-/// This Code based on class13 starter code

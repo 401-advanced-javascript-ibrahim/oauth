@@ -49,11 +49,10 @@ async function getRemoteUserInfo(token) {
 async function getUser(remoteUser) {
     let userRecord = {
         username: remoteUser.login,
-        password: 'oauthpassword',
+        password: '222',
     };
     let newUser = new Users(userRecord);
     let user = await newUser.save();
-    let token = newUser.tokenGenerator(user);
-
+    let token = await newUser.tokenGenerator(user);
     return [user, token]
-}
+};

@@ -39,8 +39,9 @@ function getUser(req, res, next) {
     });
 }
 
-function oauth(re, res, next) {
-  res.status(200).send(req.token);
+function oauth(req, res, next) {
+  console.log('hello',req.body);
+  res.json(req.token);
 }
 
 module.exports = router;
