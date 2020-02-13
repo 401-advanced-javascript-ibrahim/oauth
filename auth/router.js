@@ -9,11 +9,13 @@ const router = express.Router();
 const User = require('./users.js');
 const authMiddleware = require('./auth-middleware.js');
 const oauthMiddleware = require('./oauth/oauth-middleware.js');
+const bearerMiddleware = require('./bearer/bearer-middleware.js');
 
 router.post('/signup', signup);
 router.post('/signin', authMiddleware, signin);
 router.get('/user', getUser);
 router.get('/oauth', oauthMiddleware, oauth);
+router.get('/user', bearerMiddleware, bearer);
 
 function signup(req, res, next) {
   let user = new User(req.body);
@@ -40,8 +42,12 @@ function getUser(req, res, next) {
 }
 
 function oauth(req, res, next) {
-  console.log('hello',req.body);
+  console.log('hello', req.body);
   res.json(req.token);
+}
+
+function bearer(req, res, next) {
+  res.status(200).json(req.user);
 }
 
 module.exports = router;
